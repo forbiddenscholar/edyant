@@ -11,5 +11,9 @@ Please provide your name in alphabetical order, as follows:
 - Role: Develop
 - Domain: benchmark.ethics
 ---
-
+- Name: Mohit Deharkar
+- GitHub: [forbiddenscholar](https://github.com/forbiddenscholar)
+- Role: Develop
+- Domain: edyant.persistance
+---
 
