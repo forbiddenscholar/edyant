@@ -10,10 +10,25 @@ Please provide your name in alphabetical order, as follows:
 - GitHub: [arsalanrex](https://github.com/arsalanrex)
 - Role: Develop
 - Domain: benchmark.ethics
+
 ---
 - Name: Mohit Deharkar
 - GitHub: [forbiddenscholar](https://github.com/forbiddenscholar)
 - Role: Develop
 - Domain: edyant.persistance
+
 ---
+- Name: Nitin Bhoyate
+- GitHub: [nitinbhoyate-iitj](https://github.com/nitinbhoyate-iitj)
+- Role: Develop
+- Domain: benchmark.ethics / edyant.ethics
+
+---
+- Name: Chirag Jha
+- GitHub: [chiragjha1](https://github.com/chiragjha1)
+- Role: Develop
+- Domain: benchmark.ethics
+
+---
+
 
