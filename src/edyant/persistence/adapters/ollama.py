@@ -27,7 +27,7 @@ class OllamaAdapter(ModelAdapter):
     ) -> None:
         super().__init__(model)
         self._model = model
-        self._url = url or os.getenv("OLLAMA_API_URL")
+        self._url: str = url or os.getenv("OLLAMA_API_URL") or ""
         if not self._url:
             raise ValueError(
                 "OllamaAdapter requires a URL via the 'url' argument or the OLLAMA_API_URL environment variable"
@@ -38,7 +38,7 @@ class OllamaAdapter(ModelAdapter):
 
     def generate(self, prompt: str, **kwargs: Any) -> ModelOutput:
         """Send a prompt to Ollama and return the response."""
-        payload = {
+        payload: dict[str, str | bool] = {
             "model": self._model,
             "prompt": prompt,
             "stream": False,

@@ -24,3 +24,6 @@ research
 # virtual environment for Python projects
 .venv
 
+# Ignore the .vscode directory, which contains project-specific settings for Visual Studio Code
+.vscode
+
