@@ -38,7 +38,7 @@ def _check_ollama(url: str, timeout: float = 1.0) -> bool:
         return False
 
 
-def _start_ollama(bin_path: str, host: str, port: int, wait_secs: float = 8.0) -> subprocess.Popen:
+def _start_ollama(bin_path: str, host: str, port: int, wait_secs: float = 8.0) -> subprocess.Popen[str]:
     try:
         proc = subprocess.Popen(  # noqa: S603
             [bin_path, "serve"],

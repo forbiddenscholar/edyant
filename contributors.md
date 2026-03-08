@@ -26,4 +26,11 @@ Please provide your name in alphabetical order, as follows:
 - Domain: benchmark.ethics
 ---
 
+---
+- Name: Khatibul Haque
+- GitHub: [khateeb-haq](https://github.com/khateeb-haq)
+- Role: Develop
+- Domain: benchmark.persistence
+---
+
 
