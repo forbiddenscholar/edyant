@@ -71,7 +71,42 @@ let simulation = d3.forceSimulation()
   .force('link', d3.forceLink().id(d => d.id).distance(l => 140 / (1 + (l.weight||1))).strength(0.9))
   .force('charge', d3.forceManyBody().strength(-60))
   .force('center', d3.forceCenter(width/2, height/2))
-  .alphaDecay(0.05);
+  .alphaDecay(0.05)
+  .on('tick', updatePositions);
+
+// adding a drag and drop feature for easy adjustment of nodes 
+
+function drag(simulation) {
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+  }
+  
+  return d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
+}
+
+function updatePositions() {
+  linkLayer.selectAll('line')
+    .attr('x1', d=>d.source.x).attr('y1', d=>d.source.y)
+    .attr('x2', d=>d.target.x).attr('y2', d=>d.target.y);
+  nodeLayer.selectAll('circle')
+    .attr('cx', d=>d.x).attr('cy', d=>d.y);
+  labelLayer.selectAll('text')
+    .attr('x', d=>d.x).attr('y', d=>d.y);
+}
 
 function setStatus(msg) { statusEl.textContent = msg; }
 
@@ -97,23 +132,17 @@ function render() {
     .attr('fill', d=> expanded.has(d.id) ? '#7dd3fc' : '#93c5fd')
     .on('mouseenter', (event,d)=> showTooltip(`<strong>${d.label}</strong><br>deg=${d.degree||0}<br>weight≈${(d.weight||0).toFixed(2)}`, event.clientX, event.clientY))
     .on('mouseleave', hideTooltip)
-    .on('dblclick', (_,d)=> expandNode(d.id));
+    .on('dblclick', (_,d)=> expandNode(d.id))
+    .call(drag(simulation));
 
   const labelSel = labelLayer.selectAll('text').data(nodeData, d=>d.id);
   labelSel.exit().remove();
   labelSel.enter().append('text').attr('class','label').attr('dy',-8).text(d=>d.label.slice(0,40));
 
-  simulation.nodes(nodeData).on('tick', () => {
-    linkLayer.selectAll('line')
-      .attr('x1', d=>d.source.x).attr('y1', d=>d.source.y)
-      .attr('x2', d=>d.target.x).attr('y2', d=>d.target.y);
-    nodeLayer.selectAll('circle')
-      .attr('cx', d=>d.x).attr('cy', d=>d.y);
-    labelLayer.selectAll('text')
-      .attr('x', d=>d.x).attr('y', d=>d.y);
-  });
+  simulation.nodes(nodeData);
   simulation.force('link').links(links);
-  simulation.alpha(0.9).restart();
+  simulation.alpha(0.3).restart();
+  
 }
 
 async function fetchJSON(path) {
@@ -140,11 +169,19 @@ async function loadSummary() {
 
 async function expandNode(id){
   if (expanded.has(id)) return;
+  expanded.add(id);
   setStatus(`expanding ${id}...`);
   const data = await fetchJSON(`/graph/neighbors?node_id=${encodeURIComponent(id)}&min_weight=${minWeight}`);
-  data.nodes.forEach(n=> nodes.set(n.id, n));
-  data.links.forEach(l=> links.push(l));
-  expanded.add(id);
+  data.nodes.forEach(n => {if (!nodes.has(n.id)) {nodes.set(n.id, n);}});
+  data.links.forEach(l => {
+    const linkExists = links.some(existing => 
+      (existing.source.id || existing.source) === l.source && 
+      (existing.target.id || existing.target) === l.target
+    );
+    if (!linkExists) {
+      links.push(l);
+    }
+  });
   render();
   setStatus(`expanded ${id}`);
 }
