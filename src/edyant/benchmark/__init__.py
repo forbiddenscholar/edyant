@@ -9,6 +9,8 @@ from .adapters import (
     ModelAdapter,
     OllamaAdapter,
     OllamaJudgeAdapter,
+    OpenAIAdapter,
+    OpenAIJudgeAdapter,
     available_adapters,
     create_adapter,
 )
@@ -33,6 +35,8 @@ __all__ = [
     "JudgeEvaluator",
     "OllamaAdapter",
     "OllamaJudgeAdapter",
+    "OpenAIAdapter",
+    "OpenAIJudgeAdapter",
     "PromptItem",
     "RefusalEvaluator",
     "ResultWriter",
