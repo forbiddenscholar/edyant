@@ -10,6 +10,7 @@ from .base import (
     register_adapter,
 )
 from .ollama import OllamaAdapter
+from .openai import OpenAIAdapter
 
 __all__ = [
     "AdapterError",
@@ -20,4 +21,5 @@ __all__ = [
     "lazy_register",
     "register_adapter",
     "OllamaAdapter",
+    "OpenAIAdapter",
 ]
