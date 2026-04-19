@@ -95,3 +95,4 @@ python -m edyant memorygraph --store ~/.edyant/persistence/memory.sqlite --open-
 - **Episodic**: nodes table.
 - **Semantic**: emerges via edge topology; future embeddings/rules will strengthen this layer.
 - **Procedural**: edge weight updates from successful/failed outcomes.
+- Adding **Output Feedback** : Updating weights negatively to teach the system not learn patterns that fail. Will help in graceful decay of information as well (time older info will have less weights than newer ones).
